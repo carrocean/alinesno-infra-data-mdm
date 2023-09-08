@@ -1,5 +1,6 @@
 package com.alinesno.infra.data.mdm;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
@@ -9,11 +10,12 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
  * @author LuoAnDong
  * @since 2023年8月3日 上午6:23:43
  */
-@SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
-public class DataCmsApplication {
+@MapperScan("com.alinesno.infra.data.mdm.mapper")
+@SpringBootApplication
+public class DataMdmApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(DataCmsApplication.class, args);
+		SpringApplication.run(DataMdmApplication.class, args);
 	}
 
 }
