@@ -3,6 +3,7 @@ package com.alinesno.infra.data.mdm.entity;
 import com.alinesno.infra.common.facade.mapper.entity.InfraBaseEntity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
 
 /**
  * 功能名：数据详情
@@ -17,6 +18,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
  */
 
 @TableName("data_detail")
+@Data
 public class DataDetailEntity extends InfraBaseEntity {
 
     // 行业分类ID

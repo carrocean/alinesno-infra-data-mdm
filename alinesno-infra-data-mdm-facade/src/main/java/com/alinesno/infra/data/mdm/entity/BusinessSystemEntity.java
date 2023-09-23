@@ -3,6 +3,7 @@ package com.alinesno.infra.data.mdm.entity;
 import com.alinesno.infra.common.facade.mapper.entity.InfraBaseEntity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
 
 /**
  * 功能名：业务系统
@@ -17,6 +18,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
  */
 
 @TableName("business_system")
+@Data
 public class BusinessSystemEntity extends InfraBaseEntity {
 
     // 业务系统标识

@@ -3,6 +3,7 @@ package com.alinesno.infra.data.mdm.entity;
 import com.alinesno.infra.common.facade.mapper.entity.InfraBaseEntity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
 
 /**
  * 功能名：行业分类
@@ -17,6 +18,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
  */
 
 @TableName("industry_classify")
+@Data
 public class IndustryClassifyEntity extends InfraBaseEntity {
 
     // 行业分类标识
