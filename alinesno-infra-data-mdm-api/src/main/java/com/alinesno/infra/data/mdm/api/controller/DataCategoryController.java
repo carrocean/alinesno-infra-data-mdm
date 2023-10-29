@@ -1,13 +1,13 @@
 package com.alinesno.infra.data.mdm.api.controller;
 
 import com.alinesno.infra.common.core.constants.SpringInstanceScope;
-import com.alinesno.infra.common.core.rest.BaseController;
 import com.alinesno.infra.common.facade.pageable.DatatablesPageBean;
 import com.alinesno.infra.common.facade.pageable.TableDataInfo;
 import com.alinesno.infra.common.facade.response.AjaxResult;
 import com.alinesno.infra.common.facade.response.ResultCodeEnum;
 import com.alinesno.infra.common.facade.wrapper.RpcWrapper;
 import com.alinesno.infra.common.web.adapter.plugins.TranslateCode;
+import com.alinesno.infra.common.web.adapter.rest.BaseController;
 import com.alinesno.infra.data.mdm.entity.DataCategoryEntity;
 import com.alinesno.infra.data.mdm.entity.DataChangeLogEntity;
 import com.alinesno.infra.data.mdm.entity.DataDetailEntity;
@@ -42,7 +42,7 @@ import java.util.*;
 @Api(tags = "DataCategory")
 @RestController
 @Scope(SpringInstanceScope.PROTOTYPE)
-@RequestMapping("/api/infra/simple/crm/data_category")
+@RequestMapping("/api/mdm/dataCatagory")
 public class DataCategoryController extends BaseController<DataCategoryEntity, IDataCategoryService> {
 
     // 日志记录
@@ -70,7 +70,7 @@ public class DataCategoryController extends BaseController<DataCategoryEntity, I
     @PostMapping("/datatables")
     public TableDataInfo datatables(HttpServletRequest request, Model model, DatatablesPageBean page) {
         log.debug("page = {}", ToStringBuilder.reflectionToString(page));
-        return this.toDataInfo(model, this.getFeign(), page);
+        return this.toPage(model, this.getFeign(), page);
     }
 
     @Override

@@ -1,12 +1,12 @@
 package com.alinesno.infra.data.mdm.api.controller;
 
 import com.alinesno.infra.common.core.constants.SpringInstanceScope;
-import com.alinesno.infra.common.core.rest.BaseController;
 import com.alinesno.infra.common.facade.pageable.DatatablesPageBean;
 import com.alinesno.infra.common.facade.pageable.TableDataInfo;
 import com.alinesno.infra.common.facade.response.AjaxResult;
 import com.alinesno.infra.common.facade.wrapper.RpcWrapper;
 import com.alinesno.infra.common.web.adapter.plugins.TranslateCode;
+import com.alinesno.infra.common.web.adapter.rest.BaseController;
 import com.alinesno.infra.data.mdm.entity.DataDetailEntity;
 import com.alinesno.infra.data.mdm.entity.DataDetailLogEntity;
 import com.alinesno.infra.data.mdm.service.IDataDetailLogService;
@@ -52,7 +52,7 @@ import java.util.Map;
 @Api(tags = "DataDetail")
 @RestController
 @Scope(SpringInstanceScope.PROTOTYPE)
-@RequestMapping("/api/infra/simple/crm/data_detail")
+@RequestMapping("/api/mdm/dataDetail")
 public class DataDetailController extends BaseController<DataDetailEntity, IDataDetailService> {
 
     // 日志记录
@@ -78,7 +78,7 @@ public class DataDetailController extends BaseController<DataDetailEntity, IData
     public TableDataInfo datatables(HttpServletRequest request, Model model, DatatablesPageBean page) {
         log.debug("page = {}", ToStringBuilder.reflectionToString(page));
         this.setConditions(page);
-        return this.toDataInfo(model, this.getFeign(), page);
+        return this.toPage(model, this.getFeign(), page);
     }
 
     @Override
