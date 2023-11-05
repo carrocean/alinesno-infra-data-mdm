@@ -201,7 +201,7 @@ public class DataDetailController extends BaseController<DataDetailEntity, IData
     @ResponseBody
     @DeleteMapping({"delete/{ids}"})
     public AjaxResult delete(@PathVariable String ids) {
-        log.debug("delete ids:{}", ToStringBuilder.reflectionToString(ids));
+//        log.debug("delete ids:{}", ToStringBuilder.reflectionToString(ids));
         if (StringUtils.isBlank(ids)) {
             return AjaxResult.error();
         } else {
@@ -210,6 +210,9 @@ public class DataDetailController extends BaseController<DataDetailEntity, IData
             List<String> idList = Arrays.asList(ids.split(","));
             List<DataDetailLogEntity> detailLogList = new ArrayList<DataDetailLogEntity>();
             List<DataDetailEntity> detailList = service.findByIds(idList);
+            if ( detailList.size() == 0 ) {
+                return AjaxResult.error("操作失败！没有找到需要删除的数据!");
+            }
             for (DataDetailEntity detail : detailList) {
                 DataDetailLogEntity detailLog = new DataDetailLogEntity();
                 BeanUtils.copyProperties(detailLog,detail);

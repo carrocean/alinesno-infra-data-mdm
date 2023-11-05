@@ -17,15 +17,14 @@ import com.alinesno.infra.data.mdm.service.IDataDetailService;
 import com.alinesno.infra.data.mdm.vo.DataDetailVO;
 import com.alinesno.infra.data.mdm.vo.ResponseBean;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import org.apache.poi.ss.usermodel.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.ss.usermodel.WorkbookFactory;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -53,7 +52,9 @@ public class DataDetailServiceImpl extends IBaseServiceImpl<DataDetailEntity, Da
         Map<String,Long> cataInfo = new HashMap<String,Long>();
         RpcWrapper<DataCategoryEntity> dataCatagoryQuery = new RpcWrapper<>();
         dataCatagoryQuery.eq("cata_name", dataCatagoryName);
-        dataCatagoryQuery.eq("operator_id", operatorId);
+        if ( operatorId != null ) {
+            dataCatagoryQuery.eq("operator_id", operatorId);
+        }
         List<DataCategoryEntity> catagoryList = dataCategoryService.findAll(dataCatagoryQuery);
         if ( catagoryList != null && catagoryList.size() > 0 ) {
             cataInfo.put("catagoryID",catagoryList.get(0).getId()) ;
@@ -68,7 +69,7 @@ public class DataDetailServiceImpl extends IBaseServiceImpl<DataDetailEntity, Da
 
     /**
      * 导入参数
-     *  @param file excel文件
+     *  @param file excel文件 @RequestParam("file")
      * @return
      */
     @Override
@@ -114,10 +115,39 @@ public class DataDetailServiceImpl extends IBaseServiceImpl<DataDetailEntity, Da
             };
 
 
+//            使用importExcel时报错误
+//            ImportParams importParams = new ImportParams();
+//            importParams.setHeadRows(1);
+//            List<DataDetailVO> list1 = ExcelImportUtil.importExcel(file.getInputStream(), DataDetailVO.class, importParams);
 
-            ImportParams importParams = new ImportParams();
-            importParams.setHeadRows(1);
-            List<DataDetailVO> list = ExcelImportUtil.importExcel(file.getInputStream(), DataDetailVO.class, importParams);
+            //使用读取原始excel表格的方式获取导入内容
+            int lastRowNum = sheet.getLastRowNum();
+            List<DataDetailVO> list = new ArrayList<>() ;
+            for ( int i=1; i <= lastRowNum ; i++ ) {
+                int last = sheet.getRow(i).getLastCellNum() ;
+                for ( int j = 0 ; j < last ; j ++ ) {
+                    log.debug("{}列单元格类型:{}",j , sheet.getRow(i).getCell(j).getCellType());
+                    if ( sheet.getRow(i).getCell(j).getCellType() != CellType.STRING  ) {
+                        //如单元格内容不是String,会报Cannot get a STRING value from a NUMERIC cell。此处统一设置为String类型
+                        sheet.getRow(i).getCell(j).setCellType(CellType.STRING);
+                    }
+
+                }
+
+                DataDetailVO  dataDetailTmp = new DataDetailVO();
+                dataDetailTmp.setCataName( sheet.getRow(i).getCell(0).getStringCellValue() );
+                dataDetailTmp.setIdentity( sheet.getRow(i).getCell(1).getStringCellValue() );
+                dataDetailTmp.setStandardName( sheet.getRow(i).getCell(2).getStringCellValue() );
+                dataDetailTmp.setStandardCode(  sheet.getRow(i).getCell(3).getStringCellValue() );
+                dataDetailTmp.setStandarDesc( sheet.getRow(i).getCell(4).getStringCellValue() );
+                dataDetailTmp.setType( sheet.getRow(i).getCell(5).getStringCellValue() );
+                dataDetailTmp.setLength( sheet.getRow(i).getCell(6).getStringCellValue() );
+                dataDetailTmp.setQuality( sheet.getRow(i).getCell(7).getStringCellValue() );
+                dataDetailTmp.setRemark( sheet.getRow(i).getCell(8).getStringCellValue() );
+                list.add(dataDetailTmp) ;
+            }
+
+
             if (CollUtil.isEmpty(list)) {
                 return AjaxResult.error(msg.toString());
 
@@ -172,7 +202,7 @@ public class DataDetailServiceImpl extends IBaseServiceImpl<DataDetailEntity, Da
                 Long classifyIdTmp = catagoryMap.get("classifyId") ;
 
 
-//                if ( StrUtil.isNotBlank(cataName) && StrUtil.isBlank(catagoryIdTmp)) {
+
                 if ( catagoryIdTmp != null && catagoryIdTmp > 0) {
                     msg.append("第" + row_id.toString() + "行数据目录在系统中不存在!");
                     loadSuccess = false ;
