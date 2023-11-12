@@ -11,7 +11,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 @RestController
 public class CommonLoginController {
@@ -123,7 +126,6 @@ public class CommonLoginController {
 
     /**
      * 获取路由信息
-     * G:\lgb-work\lad\new\alinesno-infra-data-flink\alinesno-infra-data-flink-admin\src\views\flink\systemConfig\list.vue
      * @return 路由信息
      */
     @GetMapping("getRouters")
@@ -131,23 +133,24 @@ public class CommonLoginController {
     {
 
         Menu dashboardMenu = new Menu("Dashboard", "/dashboard", false, "noRedirect", "Layout", true, new Menu.Meta("仪盘表", "dashboard", false, null), List.of(
-                new Menu("Dashboard", "index", false, false , "dashboard", new Menu.Meta("概览", "dashboard", false, null)),
-                new Menu("Starter", "build-project/business", false, false , "build-project/business", new Menu.Meta("工程脚架", "druid", false, null))
+                new Menu("Dashboard", "index", false, false , "dashboard", new Menu.Meta("概览", "dashboard", false, null))
         ));
 
-        Menu MdmMenu = new Menu("Mdm", "/mdm", false, "noRedirect", "Layout", true, new Menu.Meta("主数据管理", "system", false, null), List.of(
+        Menu mdmMenu = new Menu("Mdm", "/mdm", false, "noRedirect", "Layout", true, new Menu.Meta("主数据管理", "system", false, null), List.of(
+                new Menu("Application", "mdm/application/list", false, false , "mdm/application/list", new Menu.Meta("应用管理", "druid", false, null)),
                 new Menu("IndustryClassify", "mdm/IndustryClassify/list", false, false , "mdm/IndustryClassify/list", new Menu.Meta("行业分类", "peoples", false, null)),
-                new Menu("DataCatagory", "mdm/dataCatagory/list", false, false , "mdm/dataCatagory/list", new Menu.Meta("数据目录", "peoples", false, null)),
-                new Menu("DataChangeLog", "mdm/dataChangeLog/list", false, false , "mdm/dataChangeLog/list", new Menu.Meta("目录历史", "peoples", false, null)),
-                new Menu("DataDetail", "mdm/dataDetail/list", false, false , "mdm/dataDetail/list", new Menu.Meta("标准数据", "peoples", false, null)),
-                new Menu("DataDetailLog", "mdm/dataDetailLog/list", false, false , "mdm/dataDetailLog/list", new Menu.Meta("数据历史", "peoples", false, null)),
+                new Menu("DataCatagory", "mdm/dataCatagory/list", false, false , "mdm/dataCatagory/list", new Menu.Meta("数据目录", "online", false, null)),
+                new Menu("DataDetail", "mdm/dataDetail/list", false, false , "mdm/dataDetail/list", new Menu.Meta("标准数据", "user", false, null)),
                 new Menu("BusinessSystem", "mdm/businessSystem/list", false, false , "mdm/businessSystem/list", new Menu.Meta("业务系统", "peoples", false, null))
+        ));
 
-
+        Menu systemMenu = new Menu("System", "/system", false, "noRedirect", "Layout", true, new Menu.Meta("历史数据", "monitor", false, null), List.of(
+                new Menu("DataChangeLog", "mdm/dataChangeLog/list", false, false , "mdm/dataChangeLog/list", new Menu.Meta("目录历史", "tree", false, null)),
+                new Menu("DataDetailLog", "mdm/dataDetailLog/list", false, false , "mdm/dataDetailLog/list", new Menu.Meta("数据历史", "job", false, null))
         ));
 
 
-        List<Menu> menus = List.of(dashboardMenu, MdmMenu ) ;
+        List<Menu> menus = List.of(dashboardMenu, mdmMenu , systemMenu ) ;
         String jsonString = JSON.toJSONString(menus, SerializerFeature.WriteMapNullValue);
 
         return AjaxResult.success(JSONArray.parseArray(jsonString)) ;

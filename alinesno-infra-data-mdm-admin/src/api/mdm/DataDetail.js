@@ -3,8 +3,8 @@ import request from '@/utils/request'
 /**
  * 【请填写功能名称】 接口文件
  *
- * @author liugb
- * @date 2021-08-23 17:13:07
+ * @author luoxiaodong
+ * @since 1.0.0
  */
 
 // 接口配置项

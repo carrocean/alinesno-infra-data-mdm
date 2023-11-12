@@ -8,8 +8,8 @@ import java.io.Serializable;
 /**
  * 功能名： 数据明细导入VO
  *
- * @author liugb
- * @date 2021-08-23 17:13:07
+ * @author luoxiaodong
+ * @since 1.0.0
  */
 public class DataDetailVO implements Serializable {
 	// fields

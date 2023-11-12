@@ -5,8 +5,8 @@ import java.io.Serializable;
 /**
  * 功能名： 行业分类清单VO
  *
- * @author liugb
- * @date 2021-08-23 17:13:07
+ * @author luoxiaodong
+ * @since 1.0.0
  */
 public class IndustryClassifyIFVO implements Serializable {
 	private static final long serialVersionUID = 1L;

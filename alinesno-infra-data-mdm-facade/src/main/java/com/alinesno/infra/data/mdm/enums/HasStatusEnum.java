@@ -8,7 +8,7 @@ import java.util.Objects;
 /**
  * 状态枚举类
  *
- * @author liugb
+ * @author luoxiaodong
  */
 
 public enum HasStatusEnum implements BaseEnum<Integer> {

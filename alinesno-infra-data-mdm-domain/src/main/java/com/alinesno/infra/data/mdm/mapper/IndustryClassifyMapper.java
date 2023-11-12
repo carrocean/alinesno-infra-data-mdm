@@ -4,6 +4,7 @@ import com.alinesno.infra.common.facade.mapper.repository.IBaseMapper;
 import com.alinesno.infra.data.mdm.entity.IndustryClassifyEntity;
 import com.alinesno.infra.data.mdm.vo.IndustryClassifyIFVO;
 import org.springframework.stereotype.Repository;
+
 import java.util.List;
 
 /**
