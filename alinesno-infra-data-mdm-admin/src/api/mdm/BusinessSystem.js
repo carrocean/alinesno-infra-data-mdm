@@ -60,9 +60,9 @@ export function updateBusinessSystem(data) {
 }
 
 // 删除【业务系统】
-export function delBusinessSystem(id) {
+export function delBusinessSystem(ids) {
   return request({
-    url: managerUrl.removeUrl + '/' + id ,
+    url: managerUrl.removeUrl + '/' + ids ,
     method: 'delete'
   })
 }

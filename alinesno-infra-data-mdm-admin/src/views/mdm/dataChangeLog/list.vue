@@ -368,7 +368,7 @@ function handleDelete(row) {
       cataNames = cataNames.slice(0,15);
     }
 
-    proxy.$modal.$confirm('是否确认删除【目录历史】名称为"' + cataNames + '"的数据项?', "警告", {
+    proxy.$confirm('是否确认删除【目录历史】名称为"' + cataNames + '"的数据项?', "警告", {
       confirmButtonText: "确定",
       cancelButtonText: "取消",
       type: "warning"
@@ -403,7 +403,7 @@ function chanageFile(value , filed , id){
 /** 导出按钮操作 */
 function handleExport() {
   const queryParams = this.queryParams;
-    proxy.$modal.$confirm('是否确认导出所有【目录历史】数据项?', "警告", {
+    proxy.$confirm('是否确认导出所有【目录历史】数据项?', "警告", {
     confirmButtonText: "确定",
     cancelButtonText: "取消",
     type: "warning"

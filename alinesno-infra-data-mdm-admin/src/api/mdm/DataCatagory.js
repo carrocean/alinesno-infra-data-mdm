@@ -63,9 +63,9 @@ export function updateDataCatagory(data) {
 }
 
 // 删除【请填写功能名称】
-export function delDataCatagory(id) {
+export function delDataCatagory(ids) {
   return request({
-    url: managerUrl.removeUrl + '/' + id ,
+    url: managerUrl.removeUrl + '/' + ids ,
     method: 'delete'
   })
 }

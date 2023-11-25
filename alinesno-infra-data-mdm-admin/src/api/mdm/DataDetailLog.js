@@ -59,9 +59,9 @@ export function updateDataDetailLog(data) {
 }
 
 // 删除【请填写功能名称】
-export function delDataDetailLog(id) {
+export function delDataDetailLog(ids) {
   return request({
-    url: managerUrl.removeUrl + '/' + id ,
+    url: managerUrl.removeUrl + '/' + ids ,
     method: 'delete'
   })
 }

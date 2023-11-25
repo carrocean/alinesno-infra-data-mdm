@@ -353,7 +353,7 @@ function handleDelete(row) {
 
   checkIfUsed(enNames).then(res => {
     if ( res.code == 200 ) {
-        proxy.$modal.$confirm('是否确认删除【业务系统】名称为"' + nameslist + '"的数据项?', "警告", {
+        proxy.$confirm('是否确认删除【业务系统】名称为"' + nameslist + '"的数据项?', "警告", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
           type: "warning"
@@ -395,7 +395,7 @@ function chanageFile(value , filed , id){
 /** 导出按钮操作 */
 function handleExport() {
   const queryParams = queryParams.value;
-  proxy.$modal.$confirm('是否确认导出所有【业务系统】数据项?', "警告", {
+  proxy.$confirm('是否确认导出所有【业务系统】数据项?', "警告", {
       confirmButtonText: "确定",
       cancelButtonText: "取消",
       type: "warning"

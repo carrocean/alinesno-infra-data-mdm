@@ -700,21 +700,19 @@ function   submitForm() {
 
 /** 删除按钮操作 */
 function   handleDelete(row) {
-  debugger
-  const declarationIds = row.id || ids.value;
+  const deleteIds = row.id || ids.value;
   let nameList = row.standardName || names.value;
   //避免弹出窗数据太长，只显示前15条数据
   if ( nameList.length > 15 ) {
     nameList = nameList.slice(0,15);
   }
-  console.log(nameList);
   proxy.$confirm('是否确认删除【数据标准】数据项?', "警告", {
       confirmButtonText: "确定",
       cancelButtonText: "取消",
       type: "warning",
       lockScroll:"true"
     }).then(function() {
-      return delDataDetail(declarationIds);
+      return delDataDetail(deleteIds);
     }).then(() => {
       getList();
       proxy.$modal.msgSuccess("删除成功");
@@ -744,7 +742,7 @@ function   chanageFile(value , filed , id){
 /** 导出按钮操作 */
 function   handleExport() {
   const queryParams = queryParams.value;
-      proxy.$modal.$confirm('是否确认导出所有【数据标准】数据项?', "警告", {
+      proxy.$confirm('是否确认导出所有【数据标准】数据项?', "警告", {
       confirmButtonText: "确定",
       cancelButtonText: "取消",
       type: "warning"

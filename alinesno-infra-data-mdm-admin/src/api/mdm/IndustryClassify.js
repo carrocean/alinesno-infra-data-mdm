@@ -62,9 +62,9 @@ export function updateIndustryClassify(data) {
 }
 
 // 删除【行业分类】
-export function delIndustryClassify(id) {
+export function delIndustryClassify(ids) {
   return request({
-    url: managerUrl.removeUrl + '/' + id ,
+    url: managerUrl.removeUrl + '/' + ids ,
     method: 'delete'
   })
 }
