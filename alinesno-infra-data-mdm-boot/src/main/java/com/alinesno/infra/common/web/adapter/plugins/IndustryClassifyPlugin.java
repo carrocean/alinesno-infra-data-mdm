@@ -1,6 +1,5 @@
-package com.alinesno.infra.data.mdm.api.plugins;
+package com.alinesno.infra.common.web.adapter.plugins;
 
-import com.alibaba.fastjson.JSONObject;
 import com.alinesno.infra.common.web.adapter.plugins.TranslateCode;
 import com.alinesno.infra.common.web.adapter.plugins.TranslatePlugin;
 import com.alinesno.infra.data.mdm.entity.IndustryClassifyEntity;
@@ -10,7 +9,6 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 import java.util.List;
 import java.util.Map;
 
@@ -21,8 +19,8 @@ import java.util.Map;
  * @since 1.0.0
  */
 @Component("IndustryClassifyPlugin")
-public class IndustryClassifyPlugin implements TranslatePlugin {
 
+public class IndustryClassifyPlugin implements TranslatePlugin {
     private final String PARENTID = "parentId";
     private final String PARENTNAME = "parentName";
 
@@ -30,6 +28,7 @@ public class IndustryClassifyPlugin implements TranslatePlugin {
     private IIndustryClassifyService industryClassifyService;
 
     private Map<String, IndustryClassifyEntity> industryClassifyMap = null ;
+
 
     @Override
     public void translate(ArrayNode node, TranslateCode convertCode) {
