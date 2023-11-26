@@ -266,6 +266,8 @@ const searchParamTem = ref([]);
 //导出清单
 const exportDataCatagoryList = ref([]);
 
+const treeIdArrs = ref([]);
+
 // 弹出层标题
 const title = ref( "");
 
@@ -589,15 +591,14 @@ function formatJson(filterVal, jsonData) {
 }
 
 function handleNodeClick(node) {
-  debugger
 
-  let treeIdArrs = [] ;
+  treeIdArrs.value = [] ;
   // 获取当前节点信息
-  treeIdArrs.push(node.id)
+  treeIdArrs.value.push(node.id)
   // 遍历当前节点的所有子节点
   if (node.children) {
     for (let i = 0; i < node.children.length; i++) {
-      treeIdArrs.push(node.children[i].id)
+      treeIdArrs.value.push(node.children[i].id)
 
     }
 
@@ -605,8 +606,7 @@ function handleNodeClick(node) {
 
   searchParams.value = searchParam(queryParamsConfig.value, queryParams.value);
   loading.value = true;
-  listTreeNavInfo(treeIdArrs, searchParams.value.pageNum, searchParams.value.pageSize, JSON.stringify(searchParams.value)).then(res => {
-    debugger
+  listTreeNavInfo(treeIdArrs.value, searchParams.value.pageNum, searchParams.value.pageSize, searchParams.value).then(res => {
     DataCatagoryList.value = res.rows;
     loading.value = false;
   })
