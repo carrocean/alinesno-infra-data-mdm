@@ -16,15 +16,15 @@
       <el-col :span="19" ><div class="grid-content bg-purple-light" width="1850px"></div>
         <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
 
-         <el-form-item label="权限字符" prop="roleKey">
-            <el-input
-               v-model="queryParams.roleKey"
-               placeholder="请输入权限字符"
-               clearable
-               style="width: 240px"
-               @keyup.enter="handleQuery"
-            />
-         </el-form-item>
+<!--         <el-form-item label="权限字符" prop="roleKey">-->
+<!--            <el-input-->
+<!--               v-model="queryParams.roleKey"-->
+<!--               placeholder="请输入权限字符"-->
+<!--               clearable-->
+<!--               style="width: 240px"-->
+<!--               @keyup.enter="handleQuery"-->
+<!--            />-->
+<!--         </el-form-item>-->
 
             <el-form-item label="标识" prop="identity" id="queryId" >
               <el-input
@@ -228,6 +228,13 @@ const exportIndustryClassifyList = ref([]);
 const IndustryClassifyList_all = ref([]);
 
 const IndustryClassifyList_tree = ref([]);
+
+const treeIdArrs = ref([]);
+
+// const    defaultProps =  {
+//   children: 'children',
+//   label: 'name'
+// } ;
 
 const data = reactive({
     total:0,
@@ -438,14 +445,14 @@ function handleDelete(row) {
           getList();
           proxy.$modal.msgSuccess("删除成功");
         }).catch(error => {
-          proxy.$modal.msgError("没有找到需要删除的数据!");
+          // proxy.$modal.msgError("没有找到需要删除的数据!");
         })
 
       } else {
         proxy.$modal.$message.error(res.msg)
       }
     }).catch(error => {
-      proxy.$modal.msgError("没有找到需要删除的数据!");
+      // proxy.$modal.msgError(error + "没有找到需要删除的数据!");
     })
 
 }
