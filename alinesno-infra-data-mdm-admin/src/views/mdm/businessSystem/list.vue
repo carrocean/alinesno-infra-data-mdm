@@ -83,7 +83,7 @@
       <el-table-column label="标识" align="left" prop="identity" />
       <el-table-column label="名称" align="left" prop="name" />
       <el-table-column label="备注" align="left" prop="remark" />
-      <el-table-column label="添加时间" align="center" prop="addTime" :width=150>
+      <el-table-column label="添加时间" align="center" prop="addTime" :width=180>
         <template  #default="scope">
           <span>{{ parseTime(scope.row.addTime) }}</span>
         </template>
@@ -366,10 +366,10 @@ function handleDelete(row) {
           proxy.$modal.msgError("没有找到需要删除的数据!");
         })
     } else {
-      proxy.$modal.$message.error(res.msg)
+      proxy.$modal.msgError(res.msg)
     }
   }).catch(error => {
-    proxy.$modal.msgError("没有找到需要删除的数据!");
+    // proxy.$modal.msgError("没有找到需要删除的数据!");
   })
 }
 
@@ -384,7 +384,6 @@ function handleStatusChange(row) {
 
 /** 修改字段状态 **/
 function chanageFile(value , filed , id){
-  debugger
   return changeBusinessSystemField(value , filed , id).then(response =>{
     if(response.code == 200){
       proxy.$modal.msgSuccess("操作成功");

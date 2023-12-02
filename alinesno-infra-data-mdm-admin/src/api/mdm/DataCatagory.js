@@ -119,7 +119,6 @@ export function statisticsCata(query , data) {
 
 //查询树形导航条当前节点和下级节点及符合查询条件的数据
 export function listTreeNavInfo(ids,pageNum,pageSize, data){
-  debugger
   return request({
     url: managerUrl.treeNavInfo+"?ids=" +ids+"&pageNum="+pageNum+"&pageSize="+pageSize,
     method: 'post',

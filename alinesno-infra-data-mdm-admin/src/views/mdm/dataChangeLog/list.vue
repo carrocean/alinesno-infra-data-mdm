@@ -378,7 +378,7 @@ function handleDelete(row) {
       getList();
       proxy.$modal.msgSuccess("删除成功");
     }).catch(error => {
-      proxy.$modal.msgError("没有找到需要删除的数据!");
+      // proxy.$modal.msgError("没有找到需要删除的数据!");
     })
 }
 

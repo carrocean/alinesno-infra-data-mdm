@@ -199,12 +199,11 @@ public class DataDetailServiceImpl extends IBaseServiceImpl<DataDetailEntity, Da
                 Long classifyIdTmp = catagoryMap.get("classifyId") ;
 
 
-
-                if ( catagoryIdTmp != null && catagoryIdTmp > 0) {
+                if ( catagoryIdTmp == null ) {
                     msg.append("第" + row_id.toString() + "行数据目录在系统中不存在!");
                     loadSuccess = false ;
-
                 }
+
                 dataDetail.setCataId(catagoryIdTmp);
                 dataDetail.setClassifyId(classifyIdTmp);
 
@@ -288,7 +287,9 @@ public class DataDetailServiceImpl extends IBaseServiceImpl<DataDetailEntity, Da
         }
         wrapper.eq("standard_name", dataDetail.getStandardName());
         wrapper.eq("cata_id", dataDetail.getCataId());
-        wrapper.eq("operator_id", dataDetail.getOperatorId());
+        if ( dataDetail.getOperatorId() != null ) {
+            wrapper.eq("operator_id", dataDetail.getOperatorId());
+        }
         List<DataDetailEntity> dataDetailList = this.list(wrapper);
         if ( dataDetailList != null && dataDetailList.size() > 0 )	{
             result.setCode(ResultCodeEnum.FAIL);
@@ -306,7 +307,9 @@ public class DataDetailServiceImpl extends IBaseServiceImpl<DataDetailEntity, Da
         }
         wrapperCode.eq("code", dataDetail.getCode());
         wrapperCode.eq("cata_id", dataDetail.getCataId());
-        wrapperCode.eq("operator_id", dataDetail.getOperatorId());
+        if ( dataDetail.getOperatorId() != null ) {
+            wrapperCode.eq("operator_id", dataDetail.getOperatorId());
+        }
         List<DataDetailEntity> dataDetailListCode = this.list(wrapperCode);
         if ( dataDetailListCode != null && dataDetailListCode.size() > 0 )	{
             result.setCode(ResultCodeEnum.FAIL);

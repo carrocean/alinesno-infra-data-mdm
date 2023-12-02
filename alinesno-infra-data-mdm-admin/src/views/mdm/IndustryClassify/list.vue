@@ -323,7 +323,7 @@ function getList() {
     // 使用全局的搜索参数处理方法预处理
     searchParams.value = searchParam(queryParamsConfig.value, queryParams.value);
     listIndustryClassify(searchParams.value).then(response => {
-      debugger
+      total.value = response.total;
       IndustryClassifyList.value = response.rows;
       loading.value = false;
       IndustryClassifyList_all.value = response.rows;

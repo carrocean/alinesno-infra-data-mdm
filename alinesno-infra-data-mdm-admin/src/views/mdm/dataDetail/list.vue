@@ -92,7 +92,7 @@
           plain
           icon="el-icon-download"
           size="mini"
-          @click="exportTemplateUI"
+          @click="exportImportTemplate"
         >模板下载</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -186,8 +186,8 @@
         <el-form-item label="编码" prop="code" >
           <el-input v-model="form.code" placeholder="请输入编码" type="textarea" autosize maxlength="200" show-word-limit/>
         </el-form-item>
-        <el-form-item label="说明" prop="standarDesc" >
-          <el-input v-model="form.standarDesc" placeholder="请输入说明" type="textarea"  :autosize="{minRows:3}" maxlength="255" show-word-limit/>
+        <el-form-item label="说明" prop="standardDesc" >
+          <el-input v-model="form.standardDesc" placeholder="请输入说明" type="textarea"  :autosize="{minRows:3}" maxlength="255" show-word-limit/>
         </el-form-item>
         <el-form-item label="类型" prop="type" >
           <el-input v-model="form.type"  placeholder="请输入数据标准的数据类型，如 浮点型" maxlength="20" show-word-limit/>
@@ -237,7 +237,7 @@
           </div-->
           <span>仅允许导入xlsx格式文件。</span>
           <el-link type="primary" :underline="false" style="font-size:12px;vertical-align: baseline;"
-                   @click="exportTemplate">下载模板
+                   @click="exportImportTemplate">下载模板
           </el-link>
         </div>
       </el-upload>
@@ -256,7 +256,7 @@
 
     <!-- 数据标准详情弹出框 -->
     <el-dialog title="数据标准详情" v-model="detailOpen"   width="540px" append-to-body :close-on-click-modal="false">
-      <el-form ref="form" :model="detailDscForm"   label-width="80px">
+      <el-form ref="formDesc" :model="detailDscForm"   label-width="80px">
         <el-form-item label="行业分类" prop="classifyNameLabel" >
           <el-input v-model="detailDscForm.classifyNameLabel"  :readonly=true />
         </el-form-item>
@@ -272,8 +272,8 @@
         <el-form-item label="编码" prop="code" >
           <el-input v-model="detailDscForm.code"  :readonly=true />
         </el-form-item>
-        <el-form-item label="说明" prop="standarDesc" >
-          <el-input v-model="detailDscForm.standarDesc" type="textarea" autosize  :readonly=true placeholder="请输入数据标准的说明，如 上年度职工月平均工资" />
+        <el-form-item label="说明" prop="standardDesc" >
+          <el-input v-model="detailDscForm.standardDesc" type="textarea" autosize  :readonly=true placeholder="请输入数据标准的说明，如 上年度职工月平均工资" />
         </el-form-item>
         <el-form-item label="类型" prop="type" >
           <el-input v-model="detailDscForm.type"  :readonly=true placeholder="请输入数据标准的数据类型，如 浮点型" />
@@ -398,6 +398,8 @@ const upFileList = ref([]);
 // 搜索参数
 const searchParams = ref([]);
 
+const treeIdArrs = ref([]);
+
 const data = reactive({
     defaultProps: {
     children: 'children',
@@ -422,7 +424,7 @@ const data = reactive({
     code: null,
     type: null,
     length: null,
-    standarDesc: null,
+    standardDesc: null,
     quality: null,
     remark: null,
     classifyId: null,
@@ -439,7 +441,7 @@ const data = reactive({
     code: Condition.like(),
     type: Condition.like(),
     length: Condition.like(),
-    standarDesc: Condition.like(),
+    standardDesc: Condition.like(),
     quality: Condition.like(),
     remark: Condition.like(),
     classifyId: Condition.eq(),
@@ -468,7 +470,7 @@ const data = reactive({
     length: [
       { required: false, message: "数据长度不能为空", trigger: "blur" }
     ],
-    standarDesc: [
+    standardDesc: [
       { required: false, message: "描述不能为空", trigger: "blur" }
     ],
     quality: [
@@ -601,17 +603,17 @@ function   cancel() {
 // 表单重置
 function   reset() {
   form.value = {
+    classifyId: null,
+    cataId: null,
     identity: null,
     shortName: null,
-    name: null,
-    namingCode: null,
+    standardName: null,
+    code: null,
     type: null,
     length: null,
-    desc: null,
+    standardDesc: null,
     quality: null,
-    remark: null,
-    classifyId: null,
-    cataId: null
+    remark: null
   };
   proxy.resetForm("formDef");
 }
@@ -645,8 +647,8 @@ function   handleAdd() {
 
 /** 修改按钮操作 */
 function   handleUpdate(row) {
-  // reset();
-  const declarationId = row.id || ids.value
+  reset();
+  let declarationId = row.id || ids.value
   getDataDetail(declarationId).then(response => {
     if (response.data) {
       form.value = response.data;
@@ -767,12 +769,12 @@ function   dataDetailImportClose()
 {
   dataDetailImportOpen.value=false;
   handleQuery();
-  // fileList.value = [] ;   //上传文件列表
-  // upFile.value = [] ;      //文件File 上传参数
-  // upFileList.value = [] ;   //文件File列表 上传参数
+  fileList.value = [] ;   //上传文件列表
+  upFile.value = [] ;      //文件File 上传参数
+  upFileList.value = [] ;   //文件File列表 上传参数
 }
 
-function   exportTemplateUI(){
+function   exportImportTemplate(){
   exportTemplate().then((res) => {
     const blob = new Blob([res]);
     const fileName = "数据标准导入模板.xlsx";
@@ -830,7 +832,7 @@ function   export2Excel() {
       const { export_json_to_excel } = require('@/excel/Export2Excel');
       const tHeader = ['行业分类', '数据目录', '名称', '标识', '编码', '说明','类型','长度','质量标准', '备注', "状态", '添加时间'];
       // 上面设置Excel的表格第一行的标题
-      const filterVal = ['classifyNameLabel', 'cataNameLabel', 'standardName', 'identity', 'code', 'standarDesc','type','length','quality', 'remark', 'statusLabel', 'addTime'];
+      const filterVal = ['classifyNameLabel', 'cataNameLabel', 'standardName', 'identity', 'code', 'standardDesc','type','length','quality', 'remark', 'statusLabel', 'addTime'];
       // 上面的index、phone_Num、school_Name是tableData里对象的属性
       const list = exportDataDetailList.value;  //把data里的tableData存到list
       const data = formatJson(filterVal, list);
@@ -889,13 +891,13 @@ function   handleDesc(row) {
     detailDscForm.value.code = row.code;
     detailDscForm.value.type = row.type;
     detailDscForm.value.length = row.length;
-    detailDscForm.value.standarDesc = row.standarDesc;
+    detailDscForm.value.standardDesc = row.standardDesc;
     detailDscForm.value.quality = row.quality;
     detailDscForm.value.remark = row.remark;
     detailDscForm.value.classifyNameLabel = row.classifyNameLabel;
     detailDscForm.value.cataNameLabel = row.cataNameLabel;
     detailDscForm.value.statusLabel = row.statusLabel;
-    detailDscForm.value.addTime = row.updateTime;
+    detailDscForm.value.addTime = row.addTime;
     detailOpen.value=true;
 }
 
@@ -937,31 +939,22 @@ for (let x of fileList) {
 
 //vue界面将文件发送到后端
 function   diyUploadFile () {
-  // dialogLoad.value = Loading.service({
-  //   lock: true,
-  //   text: '数据校验、入库中......',
-  //   spinner: 'el-icon-loading',
-  //   background: 'rgba(0, 0, 0, 0.7)'
-  // })
-  // ;
   upFile.value = upFileList.value[0];
   let uploadForm = new FormData()
   uploadForm.append('file', upFile.value)
   uploadDetail(uploadForm).then(response => {
     if ( response.code == 200 ) {
-      this.$message.success(response.msg)
+      proxy.$modal.msgSuccess(response.msg)
     }else{
-      this.$message.error(response.msg)
+      proxy.$modal.msgError(response.msg)
       this.showImportError = true ;
       this.importForm.remark = response.msg;
     }
-    // dialogLoad.close();
     return false
 
   }).catch(error => {
     showImportError.value = true ;
     importForm.value.remark = error.toString();
-    // dialogLoad.value.close();
     return false
   })
 }

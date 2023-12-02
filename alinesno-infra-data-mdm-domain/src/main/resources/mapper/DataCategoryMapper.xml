@@ -9,9 +9,9 @@
         <result column="identity" property="identity" />
         <result column="cata_name" property="cataName" />
         <result column="naming_convention" property="namingConvention" />
-        <result column="sc_sys_id" property="sourceSystemId" />
+        <result column="sc_sys_id" property="scSysId" />
         <result column="classify_id" property="classifyId" />
-        <result column="parent_cata_id" property="parentCategoryId" />
+        <result column="parent_cata_id" property="parentCataId" />
         <result column="remark" property="remark" />
     </resultMap>
 

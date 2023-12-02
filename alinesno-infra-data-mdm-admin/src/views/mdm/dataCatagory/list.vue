@@ -530,7 +530,7 @@ function handleDelete(row) {
         proxy.$modal.$message.error(res.msg)
       }
     }).catch(error => {
-      proxy.$modal.msgError("没有找到需要删除的数据!");
+      // proxy.$modal.msgError("没有找到需要删除的数据!");
     })
 }
 

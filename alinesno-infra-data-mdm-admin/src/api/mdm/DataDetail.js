@@ -139,11 +139,10 @@ export function checkMdIfExist(data) {
 
 
 export function uploadDetail(data) {
-  debugger
   return request({
-    // headers: {
-    //   "Content-Type": "multipart/form-data"
-    // },
+    headers: {
+      "Content-Type": "multipart/form-data"
+    },
     url: managerUrl.uploadDetail ,
     method: 'post',
     data: data
