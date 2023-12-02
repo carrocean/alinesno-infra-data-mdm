@@ -65,12 +65,12 @@
       <el-table-column label="名称" align="left" prop="standardName"    :sortable="'custom'"    />
       <el-table-column label="标识" align="left" prop="identity"  :sortable="'custom'"   />
       <el-table-column label="编码" align="left" prop="code"  :sortable="'custom'"   />
-      <el-table-column label="添加时间" align="center" prop="addTime" :width=150>
+      <el-table-column label="添加时间" align="center" prop="addTime" :width=180>
         <template  #default="scope">
           <span>{{ parseTime(scope.row.addTime) }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" width="100" align="center" class-name="small-padding fixed-width">
+      <el-table-column label="操作" width="160" align="center" class-name="small-padding fixed-width">
         <template  #default="scope">
           <el-button
             size="mini"
@@ -97,7 +97,7 @@
     />
 
     <!-- 数据标准详情弹出框 -->
-    <el-dialog title="数据标准详情" v-model="open" width="540px" append-to-body :close-on-click-modal="false">
+    <el-dialog title="数据标准详情" v-model="detailOpen" width="540px" append-to-body :close-on-click-modal="false">
       <el-form ref="form" :model="detailDscForm"   label-width="80px">
         <el-form-item label="行业分类" prop="classifyNameLabel" >
           <el-input v-model="detailDscForm.classifyNameLabel"  readonly: true />

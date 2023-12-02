@@ -232,7 +232,7 @@ public class DataCategoryController extends BaseController<DataCategoryEntity, I
     @ResponseBody
     @DeleteMapping({"delete/{ids}"})
     public AjaxResult delete(@PathVariable String ids) {
-        log.debug("delete ids:{}", ToStringBuilder.reflectionToString(ids));
+//        log.debug("delete ids:{}", ToStringBuilder.reflectionToString(ids));
         if (StringUtils.isBlank(ids)) {
             return AjaxResult.error();
         } else {
@@ -243,23 +243,16 @@ public class DataCategoryController extends BaseController<DataCategoryEntity, I
             List<DataCategoryEntity> catagoryList = service.findByIds(idList);
             for (DataCategoryEntity catagory : catagoryList) {
                 DataChangeLogEntity catagoryLog = new DataChangeLogEntity();
-                BeanUtils.copyProperties(catagoryLog,catagory);
+                BeanUtils.copyProperties(catagory,catagoryLog);
                 catagoryLog.setOldId(catagory.getId());
                 catagoryLog.setId(null);
                 catagoryLogList.add(catagoryLog);
 
             }
 
-            //准备好数据后，开始删除和保存
-            String[] rowsId = ids.split(",");
-            if (rowsId != null && rowsId.length > 0) {
-
-                Long[] tmpIds = new Long[rowsId.length];
-                for (int i = 0; i < rowsId.length; i++) {
-                    tmpIds[i] = Long.parseLong(rowsId[i]);
-                }
-                this.getFeign().deleteByIds(tmpIds);
-            }
+            RpcWrapper<DataCategoryEntity> delWrapper = new RpcWrapper<>();
+            delWrapper.in("id",idList);
+            this.getFeign().deleteByWrapper(delWrapper);
 
             dataChangeLogService.saveOrUpdateBatch(catagoryLogList);
 

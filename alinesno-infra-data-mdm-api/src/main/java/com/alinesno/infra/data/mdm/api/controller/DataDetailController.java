@@ -216,7 +216,7 @@ public class DataDetailController extends BaseController<DataDetailEntity, IData
             }
             for (DataDetailEntity detail : detailList) {
                 DataDetailLogEntity detailLog = new DataDetailLogEntity();
-                BeanUtils.copyProperties(detailLog,detail);
+                BeanUtils.copyProperties(detail, detailLog);
                 detailLog.setOldId(detail.getId());
                 detailLog.setId(null);
                 detailLogList.add(detailLog);
@@ -224,17 +224,10 @@ public class DataDetailController extends BaseController<DataDetailEntity, IData
             }
 
             //准备好数据后，开始删除和保存
-            String[] rowsId = ids.split(",");
-            if (rowsId != null && rowsId.length > 0) {
+            RpcWrapper<DataDetailEntity> delWrapper = new RpcWrapper<>();
+            delWrapper.in("id",idList);
+            this.getFeign().deleteByWrapper(delWrapper);
 
-
-                Long[] tmpIds = new Long[rowsId.length];
-                for (int i = 0; i < rowsId.length; i++) {
-                    tmpIds[i] = Long.parseLong(rowsId[i]);
-                }
-
-                this.getFeign().deleteByIds(tmpIds);
-            }
             dataDetailLogService.saveOrUpdateBatch(detailLogList);
 
             return AjaxResult.success();

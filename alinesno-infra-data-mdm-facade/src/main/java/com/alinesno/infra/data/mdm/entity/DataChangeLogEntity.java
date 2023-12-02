@@ -48,7 +48,7 @@ public class DataChangeLogEntity extends InfraBaseEntity {
     @ColumnType(length = 64 , value= MySqlTypeConstant.BIGINT)
     @ColumnComment("系统来源")
     @TableField("sc_sys_id")
-    private Long sourceSystemId;
+    private Long scSysId;
 
     // 行业分类
     @ColumnType(length = 64 , value= MySqlTypeConstant.BIGINT)
@@ -60,7 +60,7 @@ public class DataChangeLogEntity extends InfraBaseEntity {
     @ColumnType(length = 64 , value= MySqlTypeConstant.BIGINT)
     @ColumnComment("父目录ID")
     @TableField("parent_cata_id")
-    private Long parentCategoryId;
+    private Long parentCataId;
 
     // 备注
     @ColumnType(length = 256)
@@ -74,9 +74,6 @@ public class DataChangeLogEntity extends InfraBaseEntity {
     @TableField("old_id")
     private Long oldId;
 
-    // 主键
-//    @TableField("id")
-//    private Long id;
 
     // Getter and Setter methods
     // ...

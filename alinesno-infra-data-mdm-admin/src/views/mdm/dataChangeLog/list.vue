@@ -60,12 +60,12 @@
       <el-table-column label="行业分类" align="left" prop="classifyNameLabel"  />
       <el-table-column label="父目录" align="left" prop="parentCataNameLabel" width="200"/>
       <el-table-column label="备注" align="left" prop="remark" />
-      <el-table-column label="添加时间" align="left" prop="addTime" :width=150 >
+      <el-table-column label="添加时间" align="left" prop="addTime" :width=180 >
         <template  #default="scope">
           <span>{{ parseTime(scope.row.addTime) }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" width="80" align="center" class-name="small-padding fixed-width">
+      <el-table-column label="操作" width="100" align="center" class-name="small-padding fixed-width">
         <template  #default="scope">
           <el-button
             size="mini"
@@ -285,62 +285,59 @@ function cancel() {
 
 // 表单重置
 function reset() {
-form.value = {
-  cataEnname: null,
-  cataName: null,
-  namingConvention: null,
-  version: null,
-  scSysId: null,
-  cateId: null,
-  remark: null
-};
-this.resetForm("form");
+  form.value = {
+    cataEnname: null,
+    cataName: null,
+    namingConvention: null,
+    version: null,
+    scSysId: null,
+    cateId: null,
+    remark: null
+  };
+  proxy.resetForm("form");
 }
 
 /** 搜索按钮操作 */
 function handleQuery() {
-// 获取参数
-//this.searchParams = this.searchParam(this, this.$refs.queryParams, this.queryParams);
-
-this.queryParams.pageNum = 1;
-this.getList();
+  queryParams.value.pageNum = 1;
+  getList();
 }
 
 /** 重置按钮操作 */
 function resetQuery() {
-this.resetForm("queryForm");
-this.handleQuery();
+  proxy.resetForm("queryForm");
+  handleQuery();
 }
 
 // 多选框选中数据
 function handleSelectionChange(selection) {
-this.ids = selection.map(item => item.id)
-this.names = selection.map(item => item.cataName)
-this.single = selection.length!==1
-this.multiple = !selection.length
+  ids.value = selection.map(item => item.id) ;
+  names.value = selection.map(item => item.cataName) ;
+  single.value = selection.length!==1 ;
+  multiple.value = !selection.length ;
 }
 
 /** 新增按钮操作 */
 function handleAdd() {
-this.reset();
-this.open = true;
-this.title = "添加【目录历史】";
+  reset();
+  open.value = true;
+  title.value = "添加【目录历史】";
 }
 
 /** 修改按钮操作 */
 function handleUpdate(row) {
-this.reset();
-const cataEnname = row.id || this.ids
-getDataChangeLog(cataEnname).then(response => {
-  this.form = response.data;
-  this.open = true;
-  this.title = "修改【目录历史】";
-});
+  reset();
+  const cataEnname = row.id || ids.value
+  getDataChangeLog(cataEnname).then(response => {
+    form.value = response.data;
+    open.value = true;
+    title.value = "修改【目录历史】";
+  });
 }
 
 /** 提交按钮 */
 function submitForm() {
-    this.$refs["form"].validate(valid => {
+  proxy.$refs["formRef"].validate(valid => {
       if (valid) {
         if (form.vule.id != null) {
           updateDataChangeLog(form.vule).then(response => {
@@ -349,7 +346,7 @@ function submitForm() {
             getList();
           });
         } else {
-          addDataChangeLog(this.form.vule).then(response => {
+          addDataChangeLog(form.vule).then(response => {
             proxy.$modal.msgSuccess("新增成功");
             open.vule = false;
             getList();
@@ -402,7 +399,7 @@ function chanageFile(value , filed , id){
 
 /** 导出按钮操作 */
 function handleExport() {
-  const queryParams = this.queryParams;
+  const queryParams = queryParams.value;
     proxy.$confirm('是否确认导出所有【目录历史】数据项?', "警告", {
     confirmButtonText: "确定",
     cancelButtonText: "取消",
@@ -415,7 +412,7 @@ function handleExport() {
 }
 
 function export2Excel() {
-  searchParams.value = this.searchParam(queryParamsConfig.value, exportqueryParams.value);
+  searchParams.value = searchParam(queryParamsConfig.value, exportqueryParams.value);
   loading.value = true;
   listDataChangeLog(searchParams.value).then(response => {
     exportDataChangeLogList.value = response.rows;

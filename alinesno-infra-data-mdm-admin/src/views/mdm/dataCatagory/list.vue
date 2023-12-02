@@ -462,7 +462,7 @@ function handleAdd() {
 
 /** 修改按钮操作 */
 function handleUpdate(row) {
-  // reset();
+  reset();
   const identity = row.id || ids.value
   getDataCatagory(identity).then(response => {
     if (response.data) {
