@@ -1,4 +1,4 @@
-package com.alinesno.infra.data.mdm.api.controller;
+package com.alinesno.infra.data.mdm.gateway.controller;
 
 import com.alinesno.infra.common.core.constants.SpringInstanceScope;
 import com.alinesno.infra.common.facade.pageable.DatatablesPageBean;
