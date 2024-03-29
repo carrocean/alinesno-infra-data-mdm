@@ -1,6 +1,7 @@
 package com.alinesno.infra.data.mdm.gateway.controller;
 
 import com.alinesno.infra.common.core.constants.SpringInstanceScope;
+import com.alinesno.infra.common.facade.pageable.ConditionDto;
 import com.alinesno.infra.common.facade.pageable.DatatablesPageBean;
 import com.alinesno.infra.common.facade.pageable.TableDataInfo;
 import com.alinesno.infra.common.facade.response.AjaxResult;
@@ -96,7 +97,7 @@ public class DataCategoryController extends BaseController<DataCategoryEntity, I
 
         RpcWrapper<DataCategoryEntity> wrapper =   new RpcWrapper();
         wrapper.in("id",ids) ;
-        wrapper.builderCondition(page.getCondition());
+        wrapper.builderCondition((List<ConditionDto>) page.getCondition());
         page.setPageNum(pageNum);
         page.setPageSize(pageSize);
 
