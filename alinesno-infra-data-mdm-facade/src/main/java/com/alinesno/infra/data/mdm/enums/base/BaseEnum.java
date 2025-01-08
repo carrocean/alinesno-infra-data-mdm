@@ -3,7 +3,7 @@ package com.alinesno.infra.data.mdm.enums.base;
 /**
  * 枚举定义接口，实现了统一接口的枚举方便做统一处理
  *
- * @author LuoAnDong
+ * @author luoxiaodong
  */
 public interface BaseEnum<T> {
 
