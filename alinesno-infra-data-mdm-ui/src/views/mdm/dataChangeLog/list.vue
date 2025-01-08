@@ -105,7 +105,7 @@ import {
 import {listBusinessSystem}  from "@/api/mdm/BusinessSystem";
 import  Condition  from "@/api/Search/Condition";
 import  searchParam  from "@/api/Search/searchform";
-import {listDataCatagory} from "@/api/mdm/DataCatagory";
+import {listDataCategory} from "@/api/mdm/DataCategory";
 import {parseTime} from "@/utils/ruoyi";
 const router=useRouter() ;
 const route=useRoute()   ;
@@ -146,7 +146,7 @@ const DataChangeLogList = ref([]);
 const businessSystemList = ref([]);
 
 //主数据目录清单
-const DataCatagoryList = ref([]);
+const DataCategoryList = ref([]);
 
 // 搜索参数
 const searchParams = ref([]);
@@ -243,7 +243,7 @@ onMounted(() => {
   getBusinessSystemList();
 
   //获取主数据目录清单下拉框功能
-  getDataCatagoryList();
+  getDataCategoryList();
 })
 
 
@@ -264,9 +264,9 @@ function getList() {
 }
 
 //增加主数据目录下拉框功能
-function getDataCatagoryList() {
-  listDataCatagory(searchParamTem.value).then(response => {
-    DataCatagoryList.value = response.rows;
+function getDataCategoryList() {
+  listDataCategory(searchParamTem.value).then(response => {
+    DataCategoryList.value = response.rows;
   });
 }
 
