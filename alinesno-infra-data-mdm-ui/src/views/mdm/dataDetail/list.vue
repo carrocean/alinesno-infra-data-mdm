@@ -9,7 +9,7 @@
     <el-row>
       <el-col :span="4" >
         <span>数据目录</span>
-        <el-tree :data="DataCatagorylist_tree" :props="defaultProps" @node-click="handleNodeClick"
+        <el-tree :data="DataCategorylist_tree" :props="defaultProps" @node-click="handleNodeClick"
                  :expand-on-click-node="false" :defaultExpandAll="true"
                   ></el-tree>
       </el-col>
@@ -170,7 +170,7 @@
       <el-form ref="formDef" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="数据目录" prop="cataId" >
           <el-select v-model="form.cataId" placeholder="请选择数据目录"  style="width:360px" clearable  filterable >
-            <el-option  v-for="item in DataCatagorylist"
+            <el-option  v-for="item in DataCategorylist"
                         :key="item.id"
                         :label="item.cataName"
                         :value="item.id">
@@ -321,7 +321,7 @@ import {
   uploadDetail,
   listTreeNavInfo
 } from "@/api/mdm/DataDetail";
-import {listDataCatagory} from "@/api/mdm/DataCatagory";
+import {listDataCategory} from "@/api/mdm/DataCategory";
 import  Condition  from "@/api/Search/Condition";
 import  searchParam  from "@/api/Search/searchform";
 import {listIndustryClassify}  from "@/api/mdm/IndustryClassify";
@@ -369,10 +369,10 @@ const statusOptions = ref([]);
 const DataDetailList = ref([]);
 
 //数据目录清单
-const DataCatagorylist = ref([]);
+const DataCategorylist = ref([]);
 
 //数据目录清单
-const DataCatagorylist_tree = ref([]);
+const DataCategorylist_tree = ref([]);
 
 //当前数的子节点
 const childArr = ref([]);
@@ -538,7 +538,7 @@ const { defaultProps, total, detailDscForm, importForm, queryParams, queryParams
 // 页面加载后触发
 onMounted(() => {
   initSearchParamTem();
-  getDataCatagorylist();         //增加数据目录下拉框功能
+  getDataCategorylist();         //增加数据目录下拉框功能
   getClassifyList();             //行业分类下拉框功能
 })
 
@@ -587,10 +587,10 @@ function   handleNodeClick(node) {
 }
 
 //增加数据目录清单下拉框功能
-function   getDataCatagorylist() {
-  listDataCatagory(searchParamTem.value).then(response => {
-    DataCatagorylist.value = response.rows;
-    DataCatagorylist_tree.value = proxy.handleTree(response.rows,"id","parentCataId" ) ;
+function   getDataCategorylist() {
+  listDataCategory(searchParamTem.value).then(response => {
+    DataCategorylist.value = response.rows;
+    DataCategorylist_tree.value = proxy.handleTree(response.rows,"id","parentCataId" ) ;
   });
 }
 
@@ -667,7 +667,7 @@ function   submitForm() {
           checkMdIfExist(form.value).then(res => {
             if ( res.code == 200 ) {
 
-                DataCatagorylist.value.filter((item) => {
+                DataCategorylist.value.filter((item) => {
                   if ( item.id === form.value.cataId)
                   {
                     form.value.classifyId = item.classifyId
