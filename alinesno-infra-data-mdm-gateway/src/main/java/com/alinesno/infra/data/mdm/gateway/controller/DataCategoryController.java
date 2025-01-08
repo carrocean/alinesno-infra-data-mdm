@@ -43,7 +43,7 @@ import java.util.*;
 @Api(tags = "DataCategory")
 @RestController
 @Scope(SpringInstanceScope.PROTOTYPE)
-@RequestMapping("/api/mdm/dataCatagory")
+@RequestMapping("/api/mdm/dataCategory")
 public class DataCategoryController extends BaseController<DataCategoryEntity, IDataCategoryService> {
 
     // 日志记录
